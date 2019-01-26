@@ -12,8 +12,18 @@ app.use((req, res, next) => {
 });
 
 app.get('/:city', async (req, res) => {
-    const city = req.params.city[0].toUpperCase() + req.params.city.slice(1).toLowerCase();
-    const { currency = 'CAD' } = req.query;
+    const cityArray = req.params.city.split("-");
+    let city = "";
+    cityArray.forEach(element => {
+        if (strcmp(element.toLowerCase(), "st") == 0 || strcmp(element.toLowerCase(), "st") == 0) {
+            city += "Saint-";
+        }
+        else {
+            city += element[0].toUpperCase() + element.slice(1).toLowerCase() + "-";
+        }
+    }); 
+    city = city.substring(0, city.length - 1);
+    const { currency = 'USD' } = req.query;
 
     const response = await fetch(`https://www.numbeo.com/cost-of-living/in/${city}?displayCurrency=${currency}`);
     if (!response.ok) {
@@ -57,6 +67,11 @@ function chunkArray(arr, chunkSize) {
         temp.push(arr.slice(i, i + chunkSize));
     }
     return temp;
+}
+
+function strcmp(a, b)
+{   
+    return (a<b?-1:(a>b?1:0));  
 }
 
 app.listen(PORT, () => console.log(`Cost of Living API running on port ${PORT}`));
