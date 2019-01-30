@@ -18,5 +18,5 @@ The city for which you want to retrieve cost-of-living data for
 
 ##### `currency`
 
-The three letter currency code for the currency you want values in. Defaults to CAD.
+The three letter currency code for the currency you want values in. Defaults to USD.
 
